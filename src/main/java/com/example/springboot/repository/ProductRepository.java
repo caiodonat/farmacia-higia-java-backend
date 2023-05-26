@@ -8,5 +8,5 @@ import com.example.springboot.model.Product;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
-    Product findByEan(String ean);
+    Product findById(Integer id);
 }

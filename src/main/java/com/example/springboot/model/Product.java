@@ -44,4 +44,21 @@ public class Product {
 				"%o, %s, %s, %s, %f, %f",
 				id, type, description, ean, value, saleFee);
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 };

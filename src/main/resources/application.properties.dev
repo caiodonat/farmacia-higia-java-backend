@@ -1,0 +1,7 @@
+spring.datasource.url=jdbc:postgresql://localhost:5432/higiadb_dev
+spring.datasource.username=cdonat
+spring.datasource.password=12qwaszx
+spring.datasource.driver-class-name=org.postgresql.Driver
+# spring.jpa.database-platform = org.hibernate.dialect.MySQL5Dialect
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto = update

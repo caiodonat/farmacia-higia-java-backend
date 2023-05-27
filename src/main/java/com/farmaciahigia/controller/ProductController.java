@@ -1,4 +1,4 @@
-package com.example.springboot.controller;
+package com.farmaciahigia.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springboot.model.Product;
-import com.example.springboot.repository.ProductRepository;
+import com.farmaciahigia.model.Product;
+import com.farmaciahigia.repository.ProductRepository;
 
 @RestController
 public class ProductController {

@@ -1,4 +1,4 @@
-package com.example.springboot.model;
+package com.farmaciahigia.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

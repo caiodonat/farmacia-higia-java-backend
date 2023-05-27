@@ -1,10 +1,10 @@
-package com.example.springboot.repository;
+package com.farmaciahigia.repository;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.example.springboot.model.Product;
+import com.farmaciahigia.model.Product;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
 

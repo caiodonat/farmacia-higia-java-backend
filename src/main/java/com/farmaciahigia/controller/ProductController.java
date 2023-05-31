@@ -23,82 +23,80 @@ import com.farmaciahigia.repository.ProductRepository;
 @CrossOrigin(origins = "*")
 public class ProductController {
 
-    private final ProductRepository repository;
+	private final ProductRepository repository;
+	Map<String, Object> res = new HashMap<String, Object>();
 
-    ProductController(ProductRepository repository) {
-        this.repository = repository;
-    }
+	ProductController(ProductRepository repository) {
+		this.repository = repository;
+	}
 
-    Map<Long, Product> res = new HashMap<Long, Product>();
+	@PostMapping("/")
+	String create() {
 
-    @GetMapping("/save")
-    String create() {
+		Product product = new Product(
+				"drug",
+				"dipirona",
+				"123123123123",
+				8.54,
+				11.0d);
 
-        Product product = new Product(
-                "drug",
-                "dipirona",
-                "123123123123",
-                8.54,
-                11.0d);
+		repository.save(product);
+		return product.toString();
+	}
 
-        repository.save(product);
-        return product.toString();
-    }
+	/**
+	 * @return
+	 */
+	@GetMapping("/all")
+	ResponseEntity<?> getAll() {
+		try {
 
-    @GetMapping("/all")
-    List<Product> getAll() {
-        List<Product> productDb = repository.findAll();
+			List<Product> repo = repository.findAll();
 
-        return productDb;
-    }
+			return ResponseEntity
+				.status(200)
+				.body(Map.of(
+					"message", "Produto encontrado com sucesso!",
+					"content", repo
+				));
 
-    @GetMapping("/{id}")
-    ResponseEntity<?> getById(@PathVariable Integer id) {
-        Map<String, Object> result = new HashMap<String,Object>();
-        String message;
+		} catch (Exception e) {
+			return ResponseEntity
+				.status(500)
+				.body(Map.of(
+					"message", "Falha ao processar sua requisição",
+					"content", null
+				));
+		}
+	}
 
+	@GetMapping("/{id}") // 54
+	ResponseEntity<?> getById(@PathVariable String id) {
+		try {
+			Product productRes = repository.findById(Integer.parseInt(id));
 
-        /**
-         * body: {
-         * message: String,
-         * content: Array || Object
-         * }
-         */
+			if (productRes == null) {
+				res.put("message", "Produto não encontrado");
+				res.put("content", null);
+				return ResponseEntity
+						.status(400)
+						.body(res);
+			}
 
-         // Express
-        // res.status(200).send({
-        //     message,
-        //     productRes
-        // }).end();
+			res.put("message", "Produto encontrado com sucesso!");
+			res.put("content", productRes);
 
-        Product productRes = repository.findById(id);
+			return ResponseEntity
+					.status(200)
+					.body(res);
+		} catch (Exception e) {
 
-        if (productRes == null) {
-            result.put("message", "Produto não encontrado");
-            result.put("content", new Object());
-        }
+			res.put("message", "Falha ao processar sua requisição!");
+			res.put("content", id);
+			return ResponseEntity
+					.status(500)
+					.body(res);
+		}
+	}
 
-        result.put("message", "Produto encontrado com sucesso!");
-        result.put("content", productRes);
-
-        // Product product = new Product();
-
-        // product.setId(productRes.getId());
-        // product.setDescription(productRes.getDescription());
-
-        // res.put(product.getId(), product);
-        // // res.put(0, message);
-
-        return ResponseEntity
-        .status(200)
-        .body(result);
-    }
-
-    @GetMapping("/1")
-    public ResponseEntity<Object> getRes() {
-        Map<String, String> data = new HashMap<>();
-        data.put("key1", "value1");
-        data.put("key2", "value2");
-        return new ResponseEntity<>(data, HttpStatus.OK);
-    }
 }

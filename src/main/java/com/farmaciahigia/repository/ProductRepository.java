@@ -1,6 +1,5 @@
 package com.farmaciahigia.repository;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;

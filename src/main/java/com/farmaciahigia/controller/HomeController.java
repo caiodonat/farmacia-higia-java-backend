@@ -11,8 +11,8 @@ public class HomeController {
         return "Hello World";
     }
 
-    @GetMapping("/tt")
-    public String sumTest() {
-        return "Hello World";
-    }
+    // @GetMapping("/docs")
+    // public String sumTest() {
+    //     return "Hello World";
+    // }
 }

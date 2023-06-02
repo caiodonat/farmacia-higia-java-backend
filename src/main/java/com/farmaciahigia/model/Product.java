@@ -17,7 +17,7 @@ public class Product {
 
 	private String description;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String ean;
 
 	private Double value;

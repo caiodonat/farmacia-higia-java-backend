@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity(name = "address")
@@ -14,7 +16,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // @Column(length = 2)
+    @Column(length = 2)
     private String uf;
 
     private String country;
@@ -27,6 +29,9 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     private Establishment establishment;
+
+    @ManyToOne()
+    private Customer customer;
 
     public Address() {
     }

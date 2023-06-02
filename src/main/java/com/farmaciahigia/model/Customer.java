@@ -1,9 +1,16 @@
 package com.farmaciahigia.model;
 
+import java.util.Date;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Customer {
@@ -12,9 +19,34 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+    @Column(length = 11)
+	private Integer cpf;
+
+    private String email;
+
+	private String password;
+
 	private String firstName;
 
 	private String lastName;
+
+    private Integer phone;
+
+	@Column(name = "birth_date")
+	private Date birthDate;
+
+	// private Address address;
+
+    @Column(name = "recover_code", length = 6)
+	private String recoverCode;
+
+	@Column(columnDefinition = "boolean default true")
+	private Boolean isActive = true;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
+
 
 	// Constructor
 	protected Customer() {

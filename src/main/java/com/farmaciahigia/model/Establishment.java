@@ -24,7 +24,7 @@ public class Establishment {
     private String cnpj;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     private Employee employees;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -35,5 +35,8 @@ public class Establishment {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
+    // @OneToMany(cascade = CascadeType.ALL)
+    // @JoinColumn(referencedColumnName = "id")
+    // private Storage storages;
     
 }

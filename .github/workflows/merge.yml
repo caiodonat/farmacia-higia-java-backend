@@ -1,0 +1,23 @@
+name: Merge main
+on:
+  workflow_run:
+    workflows: [Create release, Create pre-release]
+    types:
+      - completed
+jobs:  
+  merge:
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set Git config
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+    - name: Merge main to tag@latest
+      run: |
+          git fetch --unshallow
+          git checkout main
+          git pull
+          git merge $(git describe --tags $(git rev-list --tags --max-count=1)) -m '$(git describe --tags $(git rev-list --tags --max-count=1))'
+          git push
+    

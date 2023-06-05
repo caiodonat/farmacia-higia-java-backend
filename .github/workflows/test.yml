@@ -1,0 +1,32 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: ["*"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉"
+    
+#     env:
+#       DATABASE_URL: postgresql://prisma:prisma@localhost:5433/tests
+#       JWT_SECRET: 3da541559918a808c2402bba5012f6c60b27661c
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v1
+#         with:
+#           node-version: "18.x"
+
+#       - name: Set NPM
+#         run: npm ci
+
+#       - name: Up PostgresSQL container
+#         run: docker-compose up -d
+
+#       - name: Set DB
+#         run: npx prisma migrate reset --force
+
+#       - name: Run tests
+#         run: npm run test --verbose --silent

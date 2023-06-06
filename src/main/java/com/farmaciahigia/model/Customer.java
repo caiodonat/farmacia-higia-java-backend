@@ -35,8 +35,6 @@ public class Customer {
 	@Column(name = "birth_date")
 	private Date birthDate;
 
-	// private Address address;
-
     @Column(name = "recover_code", length = 6)
 	private String recoverCode;
 

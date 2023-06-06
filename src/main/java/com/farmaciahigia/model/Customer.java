@@ -41,8 +41,8 @@ public class Customer {
 	@Column(columnDefinition = "boolean default true")
 	private Boolean isActive = true;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
     private Address address;
 
 

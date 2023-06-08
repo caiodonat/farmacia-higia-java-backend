@@ -2,6 +2,8 @@ package com.farmaciahigia.model;
 
 import java.util.Date;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -19,11 +20,13 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(length = 11)
+	@Column(length = 11, nullable = false, unique = true)
 	private Integer cpf;
 
+    @Column(nullable = false, unique = true)
 	private String email;
 
+	@Column(nullable = false)
 	private String password;
 
 	private String firstName;
@@ -49,27 +52,14 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(Long id, Integer cpf, String email, String password, String firstName, String lastName,
-			Integer phone, Date birthDate, String recoverCode, Boolean isActive, Address address) {
-		this.id = id;
-		this.cpf = cpf;
-		this.email = email;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phone = phone;
-		this.birthDate = birthDate;
-		this.recoverCode = recoverCode;
-		this.isActive = isActive;
-		this.address = address;
-	}
-
 	// Methods
 	@Override
 	public String toString() {
+
+
 		return String.format(
-				"Customer[id=%d, firstName='%s', lastName='%s']",
-				id, firstName, lastName);
+				"Customer[id=%d, p='%s', e='%s']",
+				id, password, email);
 	}
 
 	public void setId(Long id) {
@@ -97,7 +87,8 @@ public class Customer {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = "password";
+		// this.password = String.valueOf(new BCryptPasswordEncoder().encode(password));
 	}
 
 	public void setFirstName(String firstName) {

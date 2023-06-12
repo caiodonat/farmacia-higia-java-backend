@@ -133,11 +133,11 @@ public class Customer {
 		this.isActive = isActive;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
+	// public Address getAddress() {
+	// 	return address;
+	// }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+	// public void setAddress(Address address) {
+	// 	this.address = address;
+	// }
 }

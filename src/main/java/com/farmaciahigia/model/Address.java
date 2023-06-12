@@ -30,8 +30,8 @@ public class Address {
     @OneToOne(mappedBy = "address")
     private Establishment establishment;
 
-    @ManyToOne()
-    private Customer customer;
+    // @OneToOne(mappedBy = "address")
+    // private Customer customer;
 
     public Address() {
     }

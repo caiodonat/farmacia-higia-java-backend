@@ -40,12 +40,13 @@ public class Customer {
     @Column(name = "recover_code", length = 6)
 	private String recoverCode;
 
-	@Column(columnDefinition = "boolean default true")
+	@Column(name = "is_active", columnDefinition = "boolean default true")
 	private Boolean isActive = true;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    // @OneToOne(cascade = CascadeType.ALL)
+    // @JoinColumn(name = "address_id", referencedColumnName = "id")
+	// @Column(nullable = false)
+	// private Address address;
 
 
 	// Constructor

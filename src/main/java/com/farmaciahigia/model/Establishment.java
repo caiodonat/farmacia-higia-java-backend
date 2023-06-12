@@ -32,7 +32,7 @@ public class Establishment {
     @Column(nullable = false)
     private Address address;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active", nullable = true)
     private boolean isActive;
 
     // @OneToMany(cascade = CascadeType.ALL)

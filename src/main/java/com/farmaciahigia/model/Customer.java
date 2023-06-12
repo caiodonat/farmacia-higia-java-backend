@@ -23,7 +23,7 @@ public class Customer {
 	@Column(length = 11, nullable = false, unique = true)
 	private Integer cpf;
 
-    @Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Column(nullable = false)
@@ -44,11 +44,10 @@ public class Customer {
 	@Column(name = "is_active", columnDefinition = "boolean default true")
 	private Boolean isActive = true;
 
-    // @OneToOne(cascade = CascadeType.ALL)
-    // @JoinColumn(name = "address_id", referencedColumnName = "id")
+	// @OneToOne(cascade = CascadeType.ALL)
+	// @JoinColumn(name = "address_id", referencedColumnName = "id")
 	// @Column(nullable = false)
 	// private Address address;
-
 
 	// Constructor
 	public Customer() {
@@ -57,7 +56,6 @@ public class Customer {
 	// Methods
 	@Override
 	public String toString() {
-
 
 		return String.format(
 				"Customer[id=%d, p='%s', e='%s']",
@@ -134,10 +132,10 @@ public class Customer {
 	}
 
 	// public Address getAddress() {
-	// 	return address;
+	// return address;
 	// }
 
 	// public void setAddress(Address address) {
-	// 	this.address = address;
+	// this.address = address;
 	// }
 }

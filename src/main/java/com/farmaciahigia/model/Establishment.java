@@ -37,7 +37,7 @@ public class Establishment {
     @PrimaryKeyJoinColumn
     private Address address;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active", nullable = true)
     private boolean isActive;
 
     @OneToMany(mappedBy = "establishment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

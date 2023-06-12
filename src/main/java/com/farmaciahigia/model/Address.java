@@ -35,9 +35,8 @@ public class Address {
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;
 
-    @OneToOne()
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    // @OneToOne(mappedBy = "address")
+    // private Customer customer;
 
     public Address() {
     }

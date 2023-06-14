@@ -1,5 +1,6 @@
 package com.farmaciahigia.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,14 +15,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Customer {
+public class Customer implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 
 	@Column(length = 11, nullable = false, unique = true)
-	private Integer cpf;
+	private String cpf;
 
 	@Column(nullable = false, unique = true)
 	private String email;
@@ -49,28 +50,23 @@ public class Customer {
 	// @Column(nullable = false)
 	// private Address address;
 
-	// Constructor
-	public Customer() {
-	}
-
 	// Methods
 	@Override
 	public String toString() {
-
 		return String.format(
 				"Customer[id=%d, p='%s', e='%s']",
 				id, password, email);
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Integer getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
@@ -87,8 +83,12 @@ public class Customer {
 	}
 
 	public void setPassword(String password) {
-		this.password = "password";
-		// this.password = String.valueOf(new BCryptPasswordEncoder().encode(password));
+		this.password = password;
+	}
+
+	public void setPasswordCrypt(String password) {
+		// this.password = "password";
+		this.password = String.valueOf(new BCryptPasswordEncoder().encode(password));
 	}
 
 	public void setFirstName(String firstName) {

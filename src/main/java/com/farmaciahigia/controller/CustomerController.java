@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.farmaciahigia.model.Address;
 import com.farmaciahigia.model.Customer;
 import com.farmaciahigia.repository.CustomerRepository;
 
@@ -36,22 +38,14 @@ public class CustomerController {
 	ResponseEntity<?> create(@RequestBody Map<String, Object> req) {
 		try {
 			Customer customer = new Customer();
-			System.out.println("1");
 
 			customer.setEmail(String.valueOf(req.get("email")));
+			customer.setCpf(String.valueOf(req.get("cpf")));
 			customer.setPassword(String.valueOf(req.get("password")));
 
-			// customer.setId((long) 10);
-			System.out.println("2");
 
-			System.out.println(customer);
-
+			customer.setPasswordCrypt(customer.getPassword());
 			Customer newCustomer = repo.save(customer);
-			System.out.println("2.1");
-
-			System.out.println(newCustomer);
-
-			System.out.println("3");
 
 			return ResponseEntity
 					.status(200)
@@ -60,6 +54,7 @@ public class CustomerController {
 							"content", newCustomer));
 
 		} catch (Exception e) {
+			System.out.println(e);
 			return ResponseEntity
 					.status(500)
 					.body(Map.of(
@@ -68,9 +63,6 @@ public class CustomerController {
 		}
 	}
 
-	/**
-	 * @return
-	 */
 	@GetMapping("/all")
 	ResponseEntity<?> getAll() {
 		try {
@@ -139,8 +131,10 @@ public class CustomerController {
 			}
 
 			customer.setPassword(String.valueOf(req.get("password")));
-			
-			boolean passMatch = new BCryptPasswordEncoder().matches(customer.getPassword(), query.getPassword());
+
+
+			BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder(); 
+			boolean passMatch = bCrypt.matches(customer.getPassword(), query.getPassword());
 
 			if (!passMatch) {
 				// if (!customer.getPassword().equals(query.getPassword())) {
@@ -150,9 +144,6 @@ public class CustomerController {
 								"message", "Senha incorreta!",
 								"content", customer.getEmail()));
 			}
-
-			// String passEncode = new BCryptPasswordEncoder().encode(query.getPassword());
-			// String passDecode = new BCryptPasswordEncoder().matches(customer.getPassword(), passEncode);
 
 			return ResponseEntity
 					.status(200)

@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### STS ###
-application.properties
+**/application.properties
 
 ### VS Code ###
 .vscode/

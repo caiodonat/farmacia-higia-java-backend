@@ -22,6 +22,12 @@ import com.farmaciahigia.model.Address;
 import com.farmaciahigia.model.Customer;
 import com.farmaciahigia.repository.CustomerRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping(path = "/customers", produces = "application/json")
 @CrossOrigin(origins = "*")
@@ -34,6 +40,11 @@ public class CustomerController {
 		this.repo = repository;
 	}
 
+	@Operation(summary = "Create a new Customer", tags = { "Customer" })
+	@ApiResponses({
+			@ApiResponse(responseCode = "201", content = {
+					@Content(schema = @Schema(implementation = Customer.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@PostMapping("/")
 	ResponseEntity<?> create(@RequestBody Map<String, Object> req) {
 		try {
@@ -42,7 +53,6 @@ public class CustomerController {
 			customer.setEmail(String.valueOf(req.get("email")));
 			customer.setCpf(String.valueOf(req.get("cpf")));
 			customer.setPassword(String.valueOf(req.get("password")));
-
 
 			customer.setPasswordCrypt(customer.getPassword());
 			Customer newCustomer = repo.save(customer);
@@ -132,8 +142,7 @@ public class CustomerController {
 
 			customer.setPassword(String.valueOf(req.get("password")));
 
-
-			BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder(); 
+			BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
 			boolean passMatch = bCrypt.matches(customer.getPassword(), query.getPassword());
 
 			if (!passMatch) {

@@ -3,6 +3,7 @@ package com.farmaciahigia.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import jakarta.persistence.CascadeType;
@@ -17,6 +18,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Customer implements Serializable {
 
+	@Schema(accessMode = Schema.AccessMode.READ_ONLY)
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;

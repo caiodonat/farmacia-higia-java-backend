@@ -5,21 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.farmaciahigia.model.Address;
 import com.farmaciahigia.model.Customer;
+import com.farmaciahigia.service.CustomerService;
 import com.farmaciahigia.repository.CustomerRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,38 +38,41 @@ public class CustomerController {
 		this.repo = repository;
 	}
 
+	// --
+
 	@Operation(summary = "Create a new Customer", tags = { "Customer" })
 	@ApiResponses({
 			@ApiResponse(responseCode = "201", content = {
 					@Content(schema = @Schema(implementation = Customer.class), mediaType = "application/json") }),
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@PostMapping("/")
-	ResponseEntity<?> create(@RequestBody Map<String, Object> req) {
+	ResponseEntity<?> create(@RequestBody Customer reqCustomer) {
 		try {
-			Customer customer = new Customer();
+			CustomerService customerSer = new CustomerService(reqCustomer);
 
-			customer.setEmail(String.valueOf(req.get("email")));
-			customer.setCpf(String.valueOf(req.get("cpf")));
-			customer.setPassword(String.valueOf(req.get("password")));
 
-			customer.setPasswordCrypt(customer.getPassword());
-			Customer newCustomer = repo.save(customer);
+			if (!customerSer.isValid()) {
+				return ResponseEntity.status(400)
+						.body(customerSer.getErros());
+			}
 
-			return ResponseEntity
-					.status(200)
-					.body(Map.of(
-							"message", "Clientes cadastrado com sucesso!",
-							"content", newCustomer));
+			customerSer.cryptPassword();
+			
+			Customer customerSave = repo.save(new Customer(customerSer));
+
+			return ResponseEntity.status(201)
+					// .header("token", "JJASKJDNAKS")
+					.body(customerSave);
 
 		} catch (Exception e) {
 			System.out.println(e);
-			return ResponseEntity
-					.status(500)
-					.body(Map.of(
-							"message", "Falha ao processar sua requisição",
-							"content", ""));
+
+			return ResponseEntity.status(500)
+					.body(null);
 		}
 	}
+
+	// --
 
 	@GetMapping("/all")
 	ResponseEntity<?> getAll() {

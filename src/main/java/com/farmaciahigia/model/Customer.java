@@ -23,9 +23,6 @@ public class Customer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	public Customer() {
-	};
-
 	@Column(length = 11, nullable = false, unique = true)
 	private String cpf;
 
@@ -37,17 +34,6 @@ public class Customer implements Serializable {
 
 	private String firstName;
 
-	public Customer(Customer customer) {
-		this.cpf = customer.getCpf();
-		this.email = customer.getEmail();
-		this.password = customer.getPassword();
-		this.firstName = customer.getFirstName();
-		this.lastName = customer.getLastName();
-		this.phone = customer.getPhone();
-		this.birthDate = customer.getBirthDate();
-		this.recoverCode = customer.getRecoverCode();
-		this.isActive = customer.getIsActive();
-	}
 
 	private String lastName;
 
@@ -67,6 +53,21 @@ public class Customer implements Serializable {
 	// @Column(nullable = false)
 	// private Address address;
 
+	// constructors
+	public Customer() {
+	};
+
+	public Customer(Customer customer) {
+		this.cpf = customer.getCpf();
+		this.email = customer.getEmail();
+		this.password = customer.getPassword();
+		this.firstName = customer.getFirstName();
+		this.lastName = customer.getLastName();
+		this.phone = customer.getPhone();
+		this.birthDate = customer.getBirthDate();
+		this.recoverCode = customer.getRecoverCode();
+		this.isActive = customer.getIsActive();
+	}
 	// Methods
 	@Override
 	public String toString() {

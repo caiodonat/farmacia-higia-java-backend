@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.json.JsonParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -48,17 +49,17 @@ public class CustomerController {
 	@PostMapping("/")
 	ResponseEntity<?> create(@RequestBody Customer reqCustomer) {
 		try {
-			CustomerService customerSer = new CustomerService(reqCustomer);
 
+			CustomerService contract = new CustomerService(reqCustomer);
 
-			if (!customerSer.isValid()) {
+			if (!contract.isValid()) {
 				return ResponseEntity.status(400)
-						.body(customerSer.getErros());
+						.body(contract.getErros());
 			}
 
-			customerSer.cryptPassword();
-			
-			Customer customerSave = repo.save(new Customer(customerSer));
+			contract.cryptPassword(); // MOVE to repo.save();
+
+			Customer customerSave = repo.save(new Customer(contract));
 
 			return ResponseEntity.status(201)
 					// .header("token", "JJASKJDNAKS")
@@ -68,7 +69,7 @@ public class CustomerController {
 			System.out.println(e);
 
 			return ResponseEntity.status(500)
-					.body(null);
+					.body(e.getMessage());
 		}
 	}
 

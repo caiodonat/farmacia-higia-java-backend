@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>42.6.0</scope>
+        	<scope>runtime</scope>
 		</dependency>
 
 		<dependency>

@@ -37,7 +37,7 @@ public class Customer implements Serializable {
 
 	private String lastName;
 
-	private Integer phone;
+	private String phone;
 
 	@Column(name = "birth_date")
 	private Date birthDate;
@@ -130,11 +130,11 @@ public class Customer implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

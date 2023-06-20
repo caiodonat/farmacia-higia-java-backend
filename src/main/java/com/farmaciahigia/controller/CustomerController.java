@@ -33,7 +33,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class CustomerController {
 
 	private final CustomerRepository repo;
-	Map<String, Object> res = new HashMap<String, Object>();
+	Map<String, Object> infoRes = new HashMap<String, Object>();
 
 	CustomerController(CustomerRepository repository) {
 		this.repo = repository;
@@ -53,23 +53,35 @@ public class CustomerController {
 			CustomerService contract = new CustomerService(reqCustomer);
 
 			if (!contract.isValid()) {
-				return ResponseEntity.status(400)
-						.body(contract.getErros());
+
+				infoRes.put("message", "Dados inválidos:");
+				infoRes.put("content", contract.getErros());
+
+				return ResponseEntity
+						.status(400)
+						.body(infoRes);
 			}
 
 			contract.cryptPassword(); // MOVE to repo.save();
 
 			Customer customerSave = repo.save(new Customer(contract));
 
-			return ResponseEntity.status(201)
-					// .header("token", "JJASKJDNAKS")
+			return ResponseEntity
+					.status(201)
+					// .header("token", "Bearer JWT")
 					.body(customerSave);
 
 		} catch (Exception e) {
 			System.out.println(e);
+			infoRes.put("message", "Não foi possível finalizar requisição:");
+			infoRes.put("content", e.getMessage());
 
-			return ResponseEntity.status(500)
-					.body(e.getMessage());
+			return ResponseEntity
+					.status(500)
+					.body(infoRes);
+
+			// return ResponseEntity.status(500)
+			// .body(e.getMessage());
 		}
 	}
 
@@ -102,26 +114,26 @@ public class CustomerController {
 			Customer productRes = repo.findById(Integer.parseInt(id));
 
 			if (productRes == null) {
-				res.put("message", "Clientes não encontrado");
-				res.put("content", null);
+				infoRes.put("message", "Clientes não encontrado");
+				infoRes.put("content", null);
 				return ResponseEntity
 						.status(400)
-						.body(res);
+						.body(infoRes);
 			}
 
-			res.put("message", "Clientes encontrado com sucesso!");
-			res.put("content", productRes);
+			infoRes.put("message", "Clientes encontrado com sucesso!");
+			infoRes.put("content", productRes);
 
 			return ResponseEntity
 					.status(200)
-					.body(res);
+					.body(infoRes);
 		} catch (Exception e) {
 
-			res.put("message", "Falha ao processar sua requisição!");
-			res.put("content", id);
+			infoRes.put("message", "Falha ao processar sua requisição!");
+			infoRes.put("content", id);
 			return ResponseEntity
 					.status(500)
-					.body(res);
+					.body(infoRes);
 		}
 	}
 

@@ -59,11 +59,11 @@ public class CustomerController {
 
 			contract.cryptPassword(); // MOVE to repo.save();
 
-			Customer customerSave = repo.save(new Customer(contract));
+			// Customer customerSave = repo.save(new Customer(contract));
 
 			return ResponseEntity.status(201)
 					// .header("token", "JJASKJDNAKS")
-					.body(customerSave);
+					.body(contract);
 
 		} catch (Exception e) {
 			System.out.println(e);

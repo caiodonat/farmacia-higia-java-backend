@@ -9,9 +9,11 @@
 		<version>3.1.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.farmaciahigia</groupId>
 	<artifactId>spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
 	<name>farmacia-higia</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

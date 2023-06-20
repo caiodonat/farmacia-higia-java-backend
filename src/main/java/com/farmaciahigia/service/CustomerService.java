@@ -1,6 +1,7 @@
 package com.farmaciahigia.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -34,15 +35,9 @@ public class CustomerService extends Customer {
 		if (isPhone(customer.getPhone())) {
 			setPhone(customer.getPhone());
 		}
-		// if(isBirthDate(customer.getBirthDate())){
-		// setBirthDate(customer.getBirthDate());
-		// }
-		// if(isRecoverCode(customer.getRecoverCode())){
-		// setRecoverCode(customer.getRecoverCode());
-		// }
-		// if(isIsActive(customer.getIsActive())){
-		// setIsActive(customer.getIsActive());
-		// }
+		if(isBirthDate(customer.getBirthDate())){
+			setBirthDate(customer.getBirthDate());
+		}
 	}
 
 	// validators
@@ -194,6 +189,25 @@ public class CustomerService extends Customer {
 		return isValid;
 	}
 
+	public boolean isBirthDate(Date birthDate) {
+		boolean isValid = true;
+
+		if (birthDate == null) {
+			pushError("Data de nascimento não informado");
+			isValid = false;
+		}
+		Date today = new Date();
+		
+		if (birthDate.after(today)) {
+			pushError("Data de nascimento deve ser anterior a hoje");
+			isValid = false;
+		}
+
+		if (isValid) {
+			setBirthDate(birthDate);
+		}
+		return isValid;
+	}
 
 
 	// handlers

@@ -1,12 +1,12 @@
 package com.farmaciahigia.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import com.farmaciahigia.model.Customer;
-
 
 public class CustomerService extends Customer {
 
@@ -20,30 +20,24 @@ public class CustomerService extends Customer {
 		if (isCpf(customer.getCpf())) {
 			setCpf(customer.getCpf());
 		}
-		if(isEmail(customer.getEmail())){
+		if (isEmail(customer.getEmail())) {
 			setEmail(customer.getEmail());
 		}
 		if (isPassword(customer.getPassword())) {
 			setPassword(customer.getPassword());
 		}
-		if(isFirstName(customer.getFirstName())){
-		setFirstName(customer.getFirstName());
+		if (isFirstName(customer.getFirstName())) {
+			setFirstName(customer.getFirstName());
 		}
-		// if(isLastName(customer.getLastName())){
-		// setLastName(customer.getLastName());
-		// }
-		// if(isPhone(customer.getPhone())){
-		// setPhone(customer.getPhone());
-		// }
-		// if(isBirthDate(customer.getBirthDate())){
-		// setBirthDate(customer.getBirthDate());
-		// }
-		// if(isRecoverCode(customer.getRecoverCode())){
-		// setRecoverCode(customer.getRecoverCode());
-		// }
-		// if(isIsActive(customer.getIsActive())){
-		// setIsActive(customer.getIsActive());
-		// }
+		if (isLastName(customer.getLastName())) {
+			setLastName(customer.getLastName());
+		}
+		if (isPhone(customer.getPhone())) {
+			setPhone(customer.getPhone());
+		}
+		if(isBirthDate(customer.getBirthDate())){
+			setBirthDate(customer.getBirthDate());
+		}
 	}
 
 	// validators
@@ -75,8 +69,8 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		// Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}([A-Z]{2,6})?$", Pattern.CASE_INSENSITIVE);
-		Pattern p = Pattern.compile("^([a-zA-Z0-9].*)@([a-zA-Z0-9]+)\\.([a-zA-Z]{2,6})(\\.[a-zA-Z]{2,6})?$", Pattern.CASE_INSENSITIVE);
+		Pattern p = Pattern.compile("^([a-zA-Z0-9].*)@([a-zA-Z0-9]+)\\.([a-zA-Z]{2,6})(\\.[a-zA-Z]{2,6})?$",
+				Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(email);
 		if (!m.matches()) {
 			pushError("Email com formato invalido");
@@ -93,12 +87,12 @@ public class CustomerService extends Customer {
 		boolean isValid = true;
 
 		if (password == null) {
-			pushError("Senha não informada");
+			pushError("Senha não informado");
 			isValid = false;
 		}
 
 		if (password.length() < 6) {
-			pushError("Senha menor que 6 caracteres");
+			pushError("Senha muito curta");
 			isValid = false;
 		}
 
@@ -112,25 +106,109 @@ public class CustomerService extends Customer {
 		boolean isValid = true;
 
 		if (name == null) {
-			pushError("Primeiro nome não informada");
+			pushError("Primeiro nome não informado");
 			isValid = false;
 		}
 
 		if (name.length() < 3) {
-			pushError("Nome deve ter mais que 3 letras");
+			pushError("Primeiro nome deve ter mais que 3 letras");
 			isValid = false;
 		}
 
-		if (name.matches(".*\\d.*")) {
-			pushError("Nome deve conter apenas letras");
+		Pattern p = Pattern.compile("^([a-zA-Z ]{3,24})$", Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(name);
+		if (!m.matches()) {
+			pushError("Primeiro nome deve conter apenas letras");
 			isValid = false;
 		}
 
 		if (isValid) {
-			setPassword(name);
+			setFirstName(name);
 		}
 		return isValid;
 	}
+
+	public boolean isLastName(String name) {
+		boolean isValid = true;
+
+		if (name == null) {
+			pushError("Ultimo nome não informado");
+			isValid = false;
+		}
+
+		if (name.length() < 3) {
+			pushError("Ultimo nome deve ter mais que 3 letras");
+			isValid = false;
+		}
+
+		Pattern p = Pattern.compile("^([a-zA-Z ]{3,24})$", Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(name);
+		if (!m.matches()) {
+			pushError("Ultimo nome deve conter apenas letras");
+			isValid = false;
+		}
+
+		if (isValid) {
+			setLastName(name);
+		}
+		return isValid;
+	}
+
+	public boolean isPhone(String phone) {
+		boolean isValid = true;
+
+		if (phone == null) {
+			pushError("Telefone não informado");
+			isValid = false;
+		}
+
+		Pattern p = Pattern.compile(
+				"^((\\+?55 ?[1-9]{2} ?)|(\\+?55 ?\\([1-9]{2}\\) ?)|(0[1-9]{2} ?)|(\\([1-9]{2}\\) ?)|([1-9]{2}\\ ?))(([0-9]{4}-?[0-9]{4})|(9[1-9]{1}[0-9]{3}-?[0-9]{4}))$",
+				Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(phone);
+
+		// Pattern pn = Pattern.compile("\\d+");
+		// Matcher mn = pn.matcher(phone);
+
+		if (!(m.matches())) {
+			pushError("Telefone com formato invalido");
+			isValid = false;
+		}
+
+		// normalize
+		String newPhone = "";
+		for (char letter : phone.toCharArray()) {
+			if (Character.isDigit(letter)) {
+				newPhone += letter;
+			}
+		}
+
+		if (isValid) {
+			setPhone(newPhone);
+		}
+		return isValid;
+	}
+
+	public boolean isBirthDate(Date birthDate) {
+		boolean isValid = true;
+
+		if (birthDate == null) {
+			pushError("Data de nascimento não informado");
+			isValid = false;
+		}
+		Date today = new Date();
+		
+		if (birthDate.after(today)) {
+			pushError("Data de nascimento deve ser anterior a hoje");
+			isValid = false;
+		}
+
+		if (isValid) {
+			setBirthDate(birthDate);
+		}
+		return isValid;
+	}
+
 
 	// handlers
 

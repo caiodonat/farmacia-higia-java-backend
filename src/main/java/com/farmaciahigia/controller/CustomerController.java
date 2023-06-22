@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.boot.json.JsonParser;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,7 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class CustomerController {
 
 	private final CustomerRepository repo;
-	Map<String, Object> res = new HashMap<String, Object>();
+	Map<String, Object> infoRes = new HashMap<String, Object>();
 
 	CustomerController(CustomerRepository repository) {
 		this.repo = repository;
@@ -49,27 +46,39 @@ public class CustomerController {
 	@PostMapping("/")
 	ResponseEntity<?> create(@RequestBody Customer reqCustomer) {
 		try {
-
 			CustomerService contract = new CustomerService(reqCustomer);
 
 			if (!contract.isValid()) {
-				return ResponseEntity.status(400)
-						.body(contract.getErros());
+
+				infoRes.put("message", "Dados inválidos:");
+				infoRes.put("content", contract.getErros());
+
+				return ResponseEntity
+						.status(400)
+						.body(infoRes);
 			}
+
+			// uniques [cpf, email] is available ?
 
 			contract.cryptPassword(); // MOVE to repo.save();
 
-			// Customer customerSave = repo.save(new Customer(contract));
 
-			return ResponseEntity.status(201)
-					// .header("token", "JJASKJDNAKS")
-					.body(contract);
+			Customer newCustomer = repo.save(new Customer(contract));
+
+
+			return ResponseEntity
+					.status(201)
+					// .header("token", "Bearer JWT")
+					.body(newCustomer);
 
 		} catch (Exception e) {
 			System.out.println(e);
+			infoRes.put("message", "Não foi possível finalizar requisição:");
+			infoRes.put("content", e.getMessage());
 
-			return ResponseEntity.status(500)
-					.body(e.getMessage());
+			return ResponseEntity
+					.status(500)
+					.body(infoRes);
 		}
 	}
 
@@ -102,73 +111,74 @@ public class CustomerController {
 			Customer productRes = repo.findById(Integer.parseInt(id));
 
 			if (productRes == null) {
-				res.put("message", "Clientes não encontrado");
-				res.put("content", null);
+				infoRes.put("message", "Clientes não encontrado");
+				infoRes.put("content", null);
 				return ResponseEntity
 						.status(400)
-						.body(res);
+						.body(infoRes);
 			}
 
-			res.put("message", "Clientes encontrado com sucesso!");
-			res.put("content", productRes);
+			infoRes.put("message", "Clientes encontrado com sucesso!");
+			infoRes.put("content", productRes);
 
 			return ResponseEntity
 					.status(200)
-					.body(res);
+					.body(infoRes);
 		} catch (Exception e) {
 
-			res.put("message", "Falha ao processar sua requisição!");
-			res.put("content", id);
+			infoRes.put("message", "Falha ao processar sua requisição!");
+			infoRes.put("content", id);
 			return ResponseEntity
 					.status(500)
-					.body(res);
+					.body(infoRes);
 		}
 	}
 
 	@PostMapping("/login")
-	ResponseEntity<?> login(@RequestBody Map<String, Object> req) {
+	ResponseEntity<?> login(@RequestBody Customer reqCustomer) {
 		try {
-			Customer customer = new Customer();
 
-			customer.setEmail(String.valueOf(req.get("email")));
+			Customer dbCustomer = repo.findByEmail(reqCustomer.getEmail());
+			if (dbCustomer == null) {
 
-			Customer query = repo.findByEmail(customer.getEmail());
-
-			if (query == null) {
+				infoRes.put("message", "Cliente não encontrado:");
+				infoRes.put("content", reqCustomer.getEmail());
 				return ResponseEntity
 						.status(400)
-						.body(Map.of(
-								"message", "Cliente não encontrado!",
-								"content", customer.getEmail()));
+						.body(infoRes);
 			}
-
-			customer.setPassword(String.valueOf(req.get("password")));
 
 			BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
-			boolean passMatch = bCrypt.matches(customer.getPassword(), query.getPassword());
+			boolean passMatch = bCrypt.matches(
+					reqCustomer.getPassword(),
+					dbCustomer.getPassword());
+
 
 			if (!passMatch) {
-				// if (!customer.getPassword().equals(query.getPassword())) {
+				infoRes.put("message", "Senha incorreta");
+				infoRes.put("content", reqCustomer.getEmail());
 				return ResponseEntity
 						.status(400)
-						.body(Map.of(
-								"message", "Senha incorreta!",
-								"content", customer.getEmail()));
+						.body(infoRes);
 			}
+
+			
+			infoRes.put("message", "Login realizado com sucesso!");
+			infoRes.put("token", "Bearer JWT");
 
 			return ResponseEntity
 					.status(200)
-					.body(Map.of(
-							"message", "Login realizado com sucesso!",
-							"content", passMatch,
-							"token", "JWT"));
-
+					// .header("token", "Bearer JWT")
+					.body(infoRes);
+					
 		} catch (Exception e) {
+			System.out.println(e);
+			infoRes.put("message", "Não foi possível finalizar requisição:");
+			infoRes.put("content", e.getMessage());
+
 			return ResponseEntity
 					.status(500)
-					.body(Map.of(
-							"message", "Falha ao processar sua requisição",
-							"content", null));
+					.body(infoRes);
 		}
 	}
 }

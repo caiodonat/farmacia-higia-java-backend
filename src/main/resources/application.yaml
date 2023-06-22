@@ -1,0 +1,19 @@
+server.port: ${APP_PORT:5000}
+spring.datasource.url: ${DB_URL:jdbc:postgresql://localhost:5432/mydb}
+hibernate.connection.url: ${DB_URL:jdbc:postgresql://localhost:5432/mydb}
+
+spring.datasource.username: ${DB_USERNAME:root}
+spring.datasource.password: ${DB_PASSWORD:12qwaszx}
+spring.datasource.driver-class-name: ${DB_DRIVE:org.postgresql.Driver}
+spring.jpa.database-platform: ${DB_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}
+# spring.jpa.database-platform: org.hibernate.dialect.MySQL5Dialect
+spring.jpa.generate-ddl: true
+spring.jpa.hibernate.ddl-auto: update
+
+# SWAGGER
+springdoc.swagger-ui.path: /v1/docs
+springdoc.api-docs.path: /v1/docs-api
+springdoc.swagger-ui.tryItOutEnabled: true
+springdoc.swagger-ui.filter: true
+openapi.dev-url: http://localhost:${APP_PORT:5000}
+openapi.prod-url: ${APP_URL}

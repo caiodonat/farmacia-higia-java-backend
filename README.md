@@ -1,7 +1,5 @@
 # Techs Stacks
 
-# Java
-
 ## Object-Relational Mapping
 * Hibernate (ORM)
 * JPA
@@ -19,3 +17,19 @@
 
 ## Build
 * Apache Maven
+
+---
+
+# Database 
+
+Entity–Relationship Model: [DB Diagram (v0.2.2)](https://dbdiagram.io/d/64486c036b3194705132087f)
+
+---
+
+# Utilities
+
+## Set environment variables from file 
+
+```bash
+export $(cat .env | xargs)
+```

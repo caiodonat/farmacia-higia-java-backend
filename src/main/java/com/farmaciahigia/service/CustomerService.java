@@ -55,9 +55,6 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (isValid) {
-			setCpf(cpf);
-		}
 		return isValid;
 	}
 
@@ -77,9 +74,6 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (isValid) {
-			setEmail(email);
-		}
 		return isValid;
 	}
 
@@ -96,9 +90,6 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (isValid) {
-			setPassword(password);
-		}
 		return isValid;
 	}
 
@@ -183,9 +174,6 @@ public class CustomerService extends Customer {
 			}
 		}
 
-		if (isValid) {
-			setPhone(newPhone);
-		}
 		return isValid;
 	}
 
@@ -203,9 +191,6 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (isValid) {
-			setBirthDate(birthDate);
-		}
 		return isValid;
 	}
 

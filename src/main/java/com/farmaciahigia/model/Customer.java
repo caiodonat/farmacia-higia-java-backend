@@ -1,20 +1,17 @@
 package com.farmaciahigia.model;
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.Date;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-
 @Entity
 public class Customer implements Serializable {
 
@@ -97,7 +94,7 @@ public class Customer implements Serializable {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -105,12 +102,20 @@ public class Customer implements Serializable {
 	}
 
 	public void setPasswordCrypt(String password) {
+		// SecureRandom myEncoder = new SecureRandom();
+		// myEncoder.getInstance("12qwaszx");
+		
+		System.out.println(password);
+		// BCryptPasswordEncoder crypto = new BCryptPasswordEncoder(10, new SecureRandom().getInstance("12qwaszx"));
+
+
 		// this.password = "password";
 		this.password = String.valueOf(new BCryptPasswordEncoder().encode(password));
 	}
 
 	public void cryptPassword() {
-		// this.password = "password";
+		System.out.println(this.password);
+
 		this.password = String.valueOf(new BCryptPasswordEncoder().encode(this.password));
 	}
 

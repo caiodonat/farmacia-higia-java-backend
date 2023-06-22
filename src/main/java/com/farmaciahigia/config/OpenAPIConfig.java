@@ -34,7 +34,7 @@ public class OpenAPIConfig {
     Contact contact = new Contact();
     contact.setEmail("caiohdonat@gmail.com");
     contact.setName("Arion Dantas / Caio Donat");
-    contact.setUrl("https://api-farmaciahigia.com");
+    contact.setUrl("https://api.farmaciahigia.com");
 
     License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 

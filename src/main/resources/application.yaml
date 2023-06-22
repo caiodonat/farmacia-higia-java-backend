@@ -11,8 +11,8 @@ spring.jpa.generate-ddl: true
 spring.jpa.hibernate.ddl-auto: update
 
 # SWAGGER
-springdoc.swagger-ui.path: /v1/docs
-springdoc.api-docs.path: /v1/docs-api
+springdoc.swagger-ui.path: /docs
+springdoc.api-docs.path: /docs-api
 springdoc.swagger-ui.tryItOutEnabled: true
 springdoc.swagger-ui.filter: true
 openapi.dev-url: http://localhost:${APP_PORT:5000}

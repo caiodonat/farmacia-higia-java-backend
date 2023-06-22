@@ -62,9 +62,7 @@ public class CustomerController {
 
 			contract.cryptPassword(); // MOVE to repo.save();
 
-
 			Customer newCustomer = repo.save(new Customer(contract));
-
 
 			return ResponseEntity
 					.status(201)
@@ -82,8 +80,7 @@ public class CustomerController {
 		}
 	}
 
-	// --
-
+	@Operation(summary = "Get all Customer", tags = { "Customer" })
 	@GetMapping("/all")
 	ResponseEntity<?> getAll() {
 		try {
@@ -92,19 +89,21 @@ public class CustomerController {
 
 			return ResponseEntity
 					.status(200)
-					.body(Map.of(
-							"message", "Clientes encontrado com sucesso!",
-							"content", customers));
+					// .header("token", "Bearer JWT")
+					.body(customers);
 
 		} catch (Exception e) {
+			System.out.println(e);
+			infoRes.put("message", "Falha ao processar sua requisição");
+			infoRes.put("content", e.getMessage());
+
 			return ResponseEntity
 					.status(500)
-					.body(Map.of(
-							"message", "Falha ao processar sua requisição",
-							"content", null));
+					.body(infoRes);
 		}
 	}
 
+	@Operation(summary = "Get a Customer", tags = { "Customer" })
 	@GetMapping("/{id}") // 54
 	ResponseEntity<?> getById(@PathVariable String id) {
 		try {
@@ -134,6 +133,11 @@ public class CustomerController {
 		}
 	}
 
+	@Operation(summary = "Authorize Customer", tags = { "Customer" })
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = Customer.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@PostMapping("/login")
 	ResponseEntity<?> login(@RequestBody Customer reqCustomer) {
 		try {
@@ -153,7 +157,6 @@ public class CustomerController {
 					reqCustomer.getPassword(),
 					dbCustomer.getPassword());
 
-
 			if (!passMatch) {
 				infoRes.put("message", "Senha incorreta");
 				infoRes.put("content", reqCustomer.getEmail());
@@ -162,7 +165,6 @@ public class CustomerController {
 						.body(infoRes);
 			}
 
-			
 			infoRes.put("message", "Login realizado com sucesso!");
 			infoRes.put("token", "Bearer JWT");
 
@@ -170,7 +172,7 @@ public class CustomerController {
 					.status(200)
 					// .header("token", "Bearer JWT")
 					.body(infoRes);
-					
+
 		} catch (Exception e) {
 			System.out.println(e);
 			infoRes.put("message", "Não foi possível finalizar requisição:");

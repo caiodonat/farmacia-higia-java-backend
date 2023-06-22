@@ -1,7 +1,6 @@
 package com.farmaciahigia.model;
 
 import java.io.Serializable;
-import java.security.SecureRandom;
 import java.util.Date;
 
 import io.swagger.v3.oas.annotations.media.Schema;

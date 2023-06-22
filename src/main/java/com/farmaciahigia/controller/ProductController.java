@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.farmaciahigia.model.Product;
 import com.farmaciahigia.repository.ProductRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping(path = "/products", produces = "application/json")
 @CrossOrigin(origins = "*")
@@ -27,6 +29,7 @@ public class ProductController {
 		this.repository = repository;
 	}
 
+	@Operation(summary = "Create a new Product", tags = { "Product" })
 	@PostMapping("/")
 	String create() {
 
@@ -41,9 +44,7 @@ public class ProductController {
 		return product.toString();
 	}
 
-	/**
-	 * @return
-	 */
+	@Operation(summary = "Get all Products", tags = { "Product" })
 	@GetMapping("/all")
 	ResponseEntity<?> getAll() {
 		try {
@@ -67,6 +68,7 @@ public class ProductController {
 		}
 	}
 
+	@Operation(summary = "Get a Product", tags = { "Product" })
 	@GetMapping("/{id}") // 54
 	ResponseEntity<?> getById(@PathVariable String id) {
 		try {

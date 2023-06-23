@@ -1,4 +1,4 @@
-server.port: ${APP_PORT:5000}
+server.port: ${PORT:5000}
 spring.datasource.url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/mydb}
 hibernate.connection.url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/mydb}
 
@@ -15,5 +15,5 @@ springdoc.swagger-ui.path: /docs
 springdoc.api-docs.path: /docs-api
 springdoc.swagger-ui.tryItOutEnabled: true
 springdoc.swagger-ui.filter: true
-openapi.dev-url: http://localhost:${APP_PORT:5000}
+openapi.dev-url: http://localhost:${PORT:5000}
 openapi.prod-url: ${APP_URL}

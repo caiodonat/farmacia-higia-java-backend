@@ -26,10 +26,10 @@ public class OpenAPIConfig {
 
   @Bean
   public OpenAPI myOpenAPI() {
-    
+
     Server devServer = new Server();
-      devServer.setUrl(devUrl);
-      devServer.setDescription("Server URL in Development environment");
+    devServer.setUrl(devUrl);
+    devServer.setDescription("Server URL in Development environment");
 
     Server prodServer = new Server();
     prodServer.setUrl(prodUrl);
@@ -48,10 +48,10 @@ public class OpenAPIConfig {
         .contact(contact)
         .license(mitLicense);
 
-        if(environment.equals("development")){
-          return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
-        } else{
-          return new OpenAPI().info(info).servers(List.of(prodServer));
-        }
+    if (!environment.equals("production")) {
+      return new OpenAPI().info(info).servers(List.of(prodServer));
+    } else {
+      return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
+    }
   }
 }

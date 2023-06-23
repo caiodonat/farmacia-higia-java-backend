@@ -1,6 +1,6 @@
 # APLICATION
 server.port: ${PORT:5000}
-server.environment: {$ENVIRONMENT:development}
+server.environment: ${ENVIRONMENT:development}
 
 spring.datasource.url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/mydb}
 hibernate.connection.url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/mydb}

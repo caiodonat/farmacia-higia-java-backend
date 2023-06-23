@@ -48,7 +48,7 @@ public class OpenAPIConfig {
         .contact(contact)
         .license(mitLicense);
 
-    if (!environment.equals("production")) {
+    if (environment.equals("production")) {
       return new OpenAPI().info(info).servers(List.of(prodServer));
     } else {
       return new OpenAPI().info(info).servers(List.of(devServer, prodServer));

@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 @Entity
 public class Customer implements Serializable {
 
@@ -29,7 +30,6 @@ public class Customer implements Serializable {
 	private String password;
 
 	private String firstName;
-
 
 	private String lastName;
 
@@ -64,6 +64,7 @@ public class Customer implements Serializable {
 		this.recoverCode = customer.getRecoverCode();
 		this.isActive = customer.getIsActive();
 	}
+
 	// Methods
 	@Override
 	public String toString() {
@@ -103,10 +104,10 @@ public class Customer implements Serializable {
 	public void setPasswordCrypt(String password) {
 		// SecureRandom myEncoder = new SecureRandom();
 		// myEncoder.getInstance("12qwaszx");
-		
-		System.out.println(password);
-		// BCryptPasswordEncoder crypto = new BCryptPasswordEncoder(10, new SecureRandom().getInstance("12qwaszx"));
 
+		System.out.println(password);
+		// BCryptPasswordEncoder crypto = new BCryptPasswordEncoder(10, new
+		// SecureRandom().getInstance("12qwaszx"));
 
 		// this.password = "password";
 		this.password = String.valueOf(new BCryptPasswordEncoder().encode(password));

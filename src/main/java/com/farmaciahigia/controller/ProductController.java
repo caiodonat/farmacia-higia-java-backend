@@ -5,17 +5,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.farmaciahigia.model.Customer;
 import com.farmaciahigia.model.Product;
 import com.farmaciahigia.repository.ProductRepository;
+import com.farmaciahigia.schemas.product.ProductCore;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping(path = "/products", produces = "application/json")
@@ -30,18 +37,21 @@ public class ProductController {
 	}
 
 	@Operation(summary = "Create a new Product", tags = { "Product" })
+	// @ApiResponses({
+	// // @ApiResponse(responseCode = "500", content = {
+	// // @Content(schema = @Schema(implementation = ProductCore.class)) })
+	// })
 	@PostMapping("/")
-	String create() {
+	Product create(@RequestBody ProductCore req) {
 
-		Product product = new Product(
-				"drug",
-				"dipirona",
-				"123123123123",
-				8.54,
-				11.0d);
+		Product newProduct = new Product(req);
 
-		repository.save(product);
-		return product.toString();
+		// if (newProduct.isValid()) {
+
+		// }
+
+		repository.save(newProduct);
+		return newProduct;
 	}
 
 	@Operation(summary = "Get all Products", tags = { "Product" })
@@ -52,19 +62,17 @@ public class ProductController {
 			List<Product> repo = repository.findAll();
 
 			return ResponseEntity
-				.status(200)
-				.body(Map.of(
-					"message", "Produto encontrado com sucesso!",
-					"content", repo
-				));
+					.status(200)
+					.body(Map.of(
+							"message", "Produto encontrado com sucesso!",
+							"content", repo));
 
 		} catch (Exception e) {
 			return ResponseEntity
-				.status(500)
-				.body(Map.of(
-					"message", "Falha ao processar sua requisição",
-					"content", null
-				));
+					.status(500)
+					.body(Map.of(
+							"message", "Falha ao processar sua requisição",
+							"content", null));
 		}
 	}
 

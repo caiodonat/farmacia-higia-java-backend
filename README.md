@@ -33,3 +33,6 @@ Entity–Relationship Model: [DB Diagram (v0.2.2)](https://dbdiagram.io/d/64486c
 ```bash
 export $(cat .env | xargs)
 ```
+
+
+<!-- save files on database -->

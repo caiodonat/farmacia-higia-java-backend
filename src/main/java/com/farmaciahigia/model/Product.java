@@ -2,6 +2,8 @@ package com.farmaciahigia.model;
 
 import java.util.List;
 
+import com.farmaciahigia.schemas.product.ProductCore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
 @Entity(name = "product")
-public class Product {
+public class Product extends ProductCore {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,9 +35,15 @@ public class Product {
     // @PrimaryKeyJoinColumn
     private List<Storage> storages;
 
+	private  List<String> errors;
+	
 	// Constructor
-	public Product() {
-
+	public Product(ProductCore product) {
+		setTypeValidator(product.getType());
+		this.description = product.getDescription();
+		this.ean = product.getEan();
+		this.value = product.getValue();
+		this.saleFee = product.getSaleFee();
 	};
 
 	public Product(String type, String description, String ean, Double value, Double saleFee) {

@@ -19,11 +19,6 @@ import com.farmaciahigia.repository.ProductRepository;
 import com.farmaciahigia.schemas.product.ProductCore;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 @RestController
 @RequestMapping(path = "/products", produces = "application/json")
 @CrossOrigin(origins = "*")
@@ -37,20 +32,20 @@ public class ProductController {
 	}
 
 	@Operation(summary = "Create a new Product", tags = { "Product" })
-	// @ApiResponses({
-	// // @ApiResponse(responseCode = "500", content = {
-	// // @Content(schema = @Schema(implementation = ProductCore.class)) })
-	// })
 	@PostMapping("/")
 	Product create(@RequestBody ProductCore req) {
 
 		Product newProduct = new Product(req);
 
-		// if (newProduct.isValid()) {
+		if (newProduct.errors().isEmpty()) {
+			System.out.println("isValid");
+			
+			newProduct = repository.save(newProduct);
+		} else {
+			System.out.println("is not Valid");
+			
+		}
 
-		// }
-
-		repository.save(newProduct);
 		return newProduct;
 	}
 

@@ -35,11 +35,10 @@ public class Product extends ProductCore {
     // @PrimaryKeyJoinColumn
     private List<Storage> storages;
 
-	private  List<String> errors;
 	
 	// Constructor
 	public Product(ProductCore product) {
-		setTypeValidator(product.getType());
+		// setTypeValidator(product.getType());
 		this.description = product.getDescription();
 		this.ean = product.getEan();
 		this.value = product.getValue();
@@ -55,12 +54,15 @@ public class Product extends ProductCore {
 	};
 
 	// Methods
-	@Override
-	public String toString() {
-		return String.format(
-				"%o, %s, %s, %s, %f, %f",
-				id, type, description, ean, value, saleFee);
-	}
+	// @Override
+	// public String toString() {
+	// 	return String.format(
+	// 			"%o, %s, %s, %s, %f, %f",
+	// 			id, type, description, ean, value, saleFee);
+	// }
+
+
+
 
 	public Long getId() {
 		return id;
@@ -70,12 +72,12 @@ public class Product extends ProductCore {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<Storage> getStorages() {
+		return storages;
 	}
 
 };

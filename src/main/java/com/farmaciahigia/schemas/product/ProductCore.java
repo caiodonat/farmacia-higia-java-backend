@@ -1,43 +1,51 @@
 package com.farmaciahigia.schemas.product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.farmaciahigia.schemas.ISchema;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(accessMode = Schema.AccessMode.READ_ONLY)
 public class ProductCore implements ISchema {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    private String type = "medicamento";
 
-    private String type;
+    private String description = "some product";
 
-    private String description;
+    private String ean = "123123131241234";
 
-    private String ean;
+    private Double value = 100.0;
 
-    private Double value;
+    private Double saleFee = 0.0; // desconto em % (0 ~ 100)
 
-    private Double saleFee; // desconto em % (0 ~ 100)
+    protected List<String> errors = new ArrayList<>();
 
     // methods
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public String getEan() {
-        return ean;
+        return this.ean;
     }
 
     public Double getValue() {
-        return value;
+        return this.value;
     }
 
     public Double getSaleFee() {
-        return saleFee;
+        return this.saleFee;
+    }
+
+    public List<String> errors() {
+        return this.errors;
     }
 
 }

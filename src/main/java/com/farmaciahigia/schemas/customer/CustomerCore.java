@@ -7,43 +7,77 @@ import com.farmaciahigia.schemas.ISchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class CustomerCore implements ISchema {
-    
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    private String cpf;
 
-    private String email;
+	@Schema(accessMode = Schema.AccessMode.READ_ONLY)
+	private String cpf = "12345678910";
 
-    private String firstName;
+	private String password = "12qwaszx";
 
-    private String lastName;
+	private String email = "nobody@mail.com";
 
-    private String phone;
+	private String firstName;
 
-    private Date birthDate;
+	private String lastName;
 
-    // methods
+	private String phone;
 
-    public String getCpf() {
-        return cpf;
-    }
+	private Date birthDate;
 
-    public String getEmail() {
-        return email;
-    }
+	// methods
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public String getCpf() {
+		return cpf;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
 }

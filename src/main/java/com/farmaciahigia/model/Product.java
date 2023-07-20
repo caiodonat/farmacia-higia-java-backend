@@ -54,16 +54,7 @@ public class Product extends ProductCore {
 	};
 
 	// Methods
-	// @Override
-	// public String toString() {
-	// 	return String.format(
-	// 			"%o, %s, %s, %s, %f, %f",
-	// 			id, type, description, ean, value, saleFee);
-	// }
-
-
-
-
+	
 	public Long getId() {
 		return id;
 	}

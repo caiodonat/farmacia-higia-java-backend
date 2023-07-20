@@ -72,7 +72,7 @@ public class ProductController {
 	}
 
 	@Operation(summary = "Get a Product", tags = { "Product" })
-	@GetMapping("/{id}") // 54
+	@GetMapping("/{id}")
 	ResponseEntity<?> getById(@PathVariable String id) {
 		try {
 			Product productRes = repository.findById(Integer.parseInt(id));

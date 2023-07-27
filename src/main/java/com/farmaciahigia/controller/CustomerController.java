@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.farmaciahigia.model.Customer;
 import com.farmaciahigia.service.CustomerService;
 import com.farmaciahigia.repository.CustomerRepository;
+import com.farmaciahigia.schemas.customer.CustomerCore;
+import com.farmaciahigia.schemas.customer.CustomerResponseError;
+import com.farmaciahigia.schemas.customer.CustomerResponseSuccess;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.Tuple;
 
 @RestController
 @RequestMapping(path = "/customers", produces = "application/json")
@@ -41,17 +45,21 @@ public class CustomerController {
 	@Operation(summary = "Create a new Customer", tags = { "Customer" })
 	@ApiResponses({
 			@ApiResponse(responseCode = "201", content = {
-					@Content(schema = @Schema(implementation = Customer.class), mediaType = "application/json") }),
-			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+					@Content(schema = @Schema(implementation = CustomerResponseSuccess.class), mediaType = "application/json")
+			}),
+			@ApiResponse(responseCode = "400", content = {
+					@Content(schema = @Schema(implementation = CustomerResponseError.class), mediaType = "application/json")
+			})
+	})
 	@PostMapping("/")
-	ResponseEntity<?> create(@RequestBody Customer reqCustomer) {
+	ResponseEntity<?> create(@RequestBody CustomerCore req) {
 		try {
-			CustomerService contract = new CustomerService(reqCustomer);
+			Customer reqCustomer = new Customer(req);
 
-			if (!contract.isValid()) {
+			if (reqCustomer.errors().size() != 0) {
 
 				infoRes.put("message", "Dados inválidos:");
-				infoRes.put("content", contract.getErros());
+				infoRes.put("content", reqCustomer.errors());
 
 				return ResponseEntity
 						.status(400)
@@ -60,9 +68,9 @@ public class CustomerController {
 
 			// uniques [cpf, email] is available ?
 
-			contract.cryptPassword(); // MOVE to repo.save();
+			reqCustomer.setPasswordCrypt(reqCustomer.getPassword()); // MOVE to repo.save();
 
-			Customer newCustomer = repo.save(new Customer(contract));
+			Customer newCustomer = repo.save(new Customer(reqCustomer));
 
 			return ResponseEntity
 					.status(201)
@@ -70,12 +78,11 @@ public class CustomerController {
 					.body(newCustomer);
 
 		} catch (Exception e) {
-			System.out.println(e);
 			infoRes.put("message", "Não foi possível finalizar requisição:");
-			infoRes.put("content", e.getMessage());
+			infoRes.put("errors", e.getMessage());
 
 			return ResponseEntity
-					.status(500)
+					.status(400)
 					.body(infoRes);
 		}
 	}

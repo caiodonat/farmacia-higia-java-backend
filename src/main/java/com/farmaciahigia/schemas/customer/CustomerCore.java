@@ -1,6 +1,8 @@
 package com.farmaciahigia.schemas.customer;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.farmaciahigia.schemas.ISchema;
 
@@ -22,6 +24,8 @@ public class CustomerCore implements ISchema {
 	private String phone;
 
 	private Date birthDate;
+
+	protected List<String> errors = new ArrayList<>();
 
 	// methods
 
@@ -79,5 +83,9 @@ public class CustomerCore implements ISchema {
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public List<String> errors() {
+		return this.errors;
 	}
 }

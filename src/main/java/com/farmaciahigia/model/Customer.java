@@ -34,6 +34,9 @@ public class Customer extends CustomerCore {
 
 	private String phone;
 
+	@Column(name = "avatar_url")
+	private String avatarUrl;
+
 	@Column(name = "birth_date")
 	private Date birthDate;
 
@@ -51,7 +54,7 @@ public class Customer extends CustomerCore {
 	// constructors
 	public Customer() {
 	};
-	
+
 	public Customer(CustomerCore customer) {
 		this.cpf = customer.getCpf();
 		this.email = customer.getEmail();

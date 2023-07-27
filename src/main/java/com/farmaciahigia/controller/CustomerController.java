@@ -34,7 +34,7 @@ import jakarta.persistence.Tuple;
 public class CustomerController {
 
 	private final CustomerRepository repo;
-	Map<String, Object> infoRes = new HashMap<String, Object>();
+	Map<String, Object> res = new HashMap<String, Object>();
 
 	CustomerController(CustomerRepository repository) {
 		this.repo = repository;
@@ -58,12 +58,12 @@ public class CustomerController {
 
 			if (reqCustomer.errors().size() != 0) {
 
-				infoRes.put("message", "Dados inválidos:");
-				infoRes.put("content", reqCustomer.errors());
+				res.put("message", "Dados inválidos:");
+				res.put("content", reqCustomer.errors());
 
 				return ResponseEntity
 						.status(400)
-						.body(infoRes);
+						.body(res);
 			}
 
 			// uniques [cpf, email] is available ?
@@ -78,12 +78,12 @@ public class CustomerController {
 					.body(newCustomer);
 
 		} catch (Exception e) {
-			infoRes.put("message", "Não foi possível finalizar requisição:");
-			infoRes.put("errors", e.getMessage());
+			res.put("message", "Não foi possível finalizar requisição:");
+			res.put("errors", e.getMessage());
 
 			return ResponseEntity
 					.status(400)
-					.body(infoRes);
+					.body(res);
 		}
 	}
 
@@ -101,12 +101,12 @@ public class CustomerController {
 
 		} catch (Exception e) {
 			System.out.println(e);
-			infoRes.put("message", "Falha ao processar sua requisição");
-			infoRes.put("content", e.getMessage());
+			res.put("message", "Falha ao processar sua requisição");
+			res.put("content", e.getMessage());
 
 			return ResponseEntity
 					.status(500)
-					.body(infoRes);
+					.body(res);
 		}
 	}
 
@@ -117,26 +117,26 @@ public class CustomerController {
 			Customer productRes = repo.findById(Integer.parseInt(id));
 
 			if (productRes == null) {
-				infoRes.put("message", "Clientes não encontrado");
-				infoRes.put("content", null);
+				res.put("message", "Clientes não encontrado");
+				res.put("content", null);
 				return ResponseEntity
 						.status(400)
-						.body(infoRes);
+						.body(res);
 			}
 
-			infoRes.put("message", "Clientes encontrado com sucesso!");
-			infoRes.put("content", productRes);
+			res.put("message", "Clientes encontrado com sucesso!");
+			res.put("content", productRes);
 
 			return ResponseEntity
 					.status(200)
-					.body(infoRes);
+					.body(res);
 		} catch (Exception e) {
 
-			infoRes.put("message", "Falha ao processar sua requisição!");
-			infoRes.put("content", id);
+			res.put("message", "Falha ao processar sua requisição!");
+			res.put("content", id);
 			return ResponseEntity
 					.status(500)
-					.body(infoRes);
+					.body(res);
 		}
 	}
 
@@ -152,11 +152,11 @@ public class CustomerController {
 			Customer dbCustomer = repo.findByEmail(reqCustomer.getEmail());
 			if (dbCustomer == null) {
 
-				infoRes.put("message", "Cliente não encontrado:");
-				infoRes.put("content", reqCustomer.getEmail());
+				res.put("message", "Cliente não encontrado:");
+				res.put("content", reqCustomer.getEmail());
 				return ResponseEntity
 						.status(400)
-						.body(infoRes);
+						.body(res);
 			}
 
 			BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
@@ -165,29 +165,29 @@ public class CustomerController {
 					dbCustomer.getPassword());
 
 			if (!passMatch) {
-				infoRes.put("message", "Senha incorreta");
-				infoRes.put("content", reqCustomer.getEmail());
+				res.put("message", "Senha incorreta");
+				res.put("content", reqCustomer.getEmail());
 				return ResponseEntity
 						.status(400)
-						.body(infoRes);
+						.body(res);
 			}
 
-			infoRes.put("message", "Login realizado com sucesso!");
-			infoRes.put("token", "Bearer JWT");
+			res.put("message", "Login realizado com sucesso!");
+			res.put("token", "Bearer JWT");
 
 			return ResponseEntity
 					.status(200)
 					// .header("token", "Bearer JWT")
-					.body(infoRes);
+					.body(res);
 
 		} catch (Exception e) {
 			System.out.println(e);
-			infoRes.put("message", "Não foi possível finalizar requisição:");
-			infoRes.put("content", e.getMessage());
+			res.put("message", "Não foi possível finalizar requisição:");
+			res.put("content", e.getMessage());
 
 			return ResponseEntity
 					.status(500)
-					.body(infoRes);
+					.body(res);
 		}
 	}
 }

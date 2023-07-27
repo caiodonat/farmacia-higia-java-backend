@@ -30,13 +30,16 @@ public class Product extends ProductCore {
 	@Column(name = "sale_fee")
 	private Double saleFee; // desconto em % (0 ~ 100)
 
-    @ManyToMany()
-    // @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    // @PrimaryKeyJoinColumn
-    private List<Storage> storages;
+	@ManyToMany()
+	// @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+	// @PrimaryKeyJoinColumn
+	private List<Storage> storages;
 
-	
 	// Constructor
+	public Product() {
+
+	}
+
 	public Product(ProductCore product) {
 		// setTypeValidator(product.getType());
 		this.description = product.getDescription();
@@ -54,7 +57,7 @@ public class Product extends ProductCore {
 	};
 
 	// Methods
-	
+
 	public Long getId() {
 		return id;
 	}

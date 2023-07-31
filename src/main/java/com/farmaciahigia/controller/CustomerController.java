@@ -32,6 +32,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping(path = "/customers", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class CustomerController {
+	/**
+	 * @TODO
+	 *       [ ] Generate JWT
+	 *       [ ] Implement JWT middleware
+	 */
 
 	private final CustomerRepository repo;
 

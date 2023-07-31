@@ -15,7 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id; 
 
-@Entity
+@Entity(name = "customer")
 @Schema(accessMode = Schema.AccessMode.READ_ONLY)
 public class Customer extends CustomerCore {
 	
@@ -37,9 +37,6 @@ public class Customer extends CustomerCore {
 	private String lastName;
 	
 	private String phone;
-	
-	@Column(name = "avatar_url")
-	private String avatarUrl;
 	
 	@Column(name = "birth_date")
 	private Date birthDate;
@@ -158,14 +155,6 @@ public class Customer extends CustomerCore {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public String getAvatarUrl() {
-		return avatarUrl;
-	}
-
-	public void setAvatarUrl(String avatarUrl) {
-		this.avatarUrl = avatarUrl;
 	}
 
 	public Date getBirthDate() {

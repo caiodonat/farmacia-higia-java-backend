@@ -17,33 +17,36 @@ import jakarta.persistence.ManyToMany;
 @Entity(name = "product")
 @Schema(accessMode = Schema.AccessMode.READ_ONLY)
 public class Product extends ProductCore {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String type;
-	
+
 	private String description;
-	
+
 	@Column(unique = true, nullable = false)
 	private String ean;
-	
+
 	private Double value;
-	
+
 	@Column(name = "sale_fee")
 	private Double saleFee; // desconto em % (0 ~ 100)
-	
+
+	@Column(name = "img_url")
+	private String imgUrl;
+
 	@ManyToMany()
 	// @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
 	// @PrimaryKeyJoinColumn
 	private List<Storage> storages;
-	
+
 	// Constructor
 	public Product() {
-		
+
 	}
-	
+
 	public Product(ProductCore product) {
 		// setTypeValidator(product.getType());
 		setDescription(product.getDescription());
@@ -52,7 +55,7 @@ public class Product extends ProductCore {
 		setValue(product.getValue());
 		setSaleFee(product.getSaleFee());
 	};
-	
+
 	public Product(Product product) {
 		setId(product.getId());
 		setType(product.getType());
@@ -60,18 +63,26 @@ public class Product extends ProductCore {
 		setEan(product.getEan());
 		setValue(product.getValue());
 		setSaleFee(product.getSaleFee());
+		setImgUrl(product.getImgUrl());
 	};
-	
-	public Product(String type, String description, String ean, Double value, Double saleFee) {
+
+	public Product(
+			String type,
+			String description,
+			String ean,
+			Double value,
+			Double saleFee,
+			String imgUrl) {
 		setType(type);
 		setDescription(description);
 		setEan(ean);
 		setValue(value);
 		setSaleFee(saleFee);
+		setImgUrl(imgUrl);
 	};
-	
+
 	// Methods
-	
+
 	@Override
 	public String toString() {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -142,5 +153,13 @@ public class Product extends ProductCore {
 	public void setStorages(List<Storage> storages) {
 		this.storages = storages;
 	}
-	
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 };

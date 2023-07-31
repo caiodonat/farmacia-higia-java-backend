@@ -2,8 +2,6 @@ package com.farmaciahigia.schemas.customer;
 
 import java.util.List;
 
-import com.farmaciahigia.model.Customer;
-
 public class CustomerResponseError {
 	
 	private String message;

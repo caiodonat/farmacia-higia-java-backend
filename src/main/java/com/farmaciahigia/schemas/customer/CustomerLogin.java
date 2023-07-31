@@ -1,7 +1,6 @@
 package com.farmaciahigia.schemas.customer;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.farmaciahigia.schemas.ISchema;

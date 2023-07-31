@@ -35,7 +35,7 @@ public class CustomerService extends Customer {
 		if (isPhone(customer.getPhone())) {
 			setPhone(customer.getPhone());
 		}
-		if(isBirthDate(customer.getBirthDate())){
+		if (isBirthDate(customer.getBirthDate())) {
 			setBirthDate(customer.getBirthDate());
 		}
 	}
@@ -50,11 +50,14 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (cpf.length() != 11) {
-			pushError("CPF invalido");
+		try {
+			if (cpf != null && cpf.length() != 11) {
+				throw new Error("CPF invalido");
+			}
+		} catch (Exception e) {
+			pushError(e.getMessage());
 			isValid = false;
 		}
-
 		return isValid;
 	}
 
@@ -85,7 +88,7 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (password.length() < 6) {
+		if (password != null && password.length() < 6) {
 			pushError("Senha muito curta");
 			isValid = false;
 		}
@@ -101,7 +104,7 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (name.length() < 3) {
+		if (name != null && name.length() < 3) {
 			pushError("Primeiro nome deve ter mais que 3 letras");
 			isValid = false;
 		}
@@ -127,7 +130,7 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 
-		if (name.length() < 3) {
+		if (name != null && name.length() < 3) {
 			pushError("Ultimo nome deve ter mais que 3 letras");
 			isValid = false;
 		}
@@ -167,12 +170,12 @@ public class CustomerService extends Customer {
 		}
 
 		// normalize
-		String newPhone = "";
-		for (char letter : phone.toCharArray()) {
-			if (Character.isDigit(letter)) {
-				newPhone += letter;
-			}
-		}
+		// String newPhone = "";
+		// for (char letter : phone.toCharArray()) {
+		// 	if (Character.isDigit(letter)) {
+		// 		newPhone += letter;
+		// 	}
+		// }
 
 		return isValid;
 	}
@@ -185,15 +188,14 @@ public class CustomerService extends Customer {
 			isValid = false;
 		}
 		Date today = new Date();
-		
-		if (birthDate.after(today)) {
+
+		if (birthDate != null && birthDate.after(today)) {
 			pushError("Data de nascimento deve ser anterior a hoje");
 			isValid = false;
 		}
 
 		return isValid;
 	}
-
 
 	// handlers
 

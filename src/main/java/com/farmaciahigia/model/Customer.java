@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.farmaciahigia.schemas.customer.CustomerCore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,10 +50,6 @@ public class Customer extends CustomerCore {
 	@Column(name = "is_active", columnDefinition = "default true")
 	private Boolean isActive;
 	
-	// @OneToOne(cascade = CascadeType.ALL)
-	// @JoinColumn(name = "address_id", referencedColumnName = "id")
-	// @Column(nullable = false)
-	// private Address address;
 	
 	// constructors
 	public Customer() {

@@ -18,7 +18,6 @@ import com.farmaciahigia.model.Customer;
 import com.farmaciahigia.repository.CustomerRepository;
 import com.farmaciahigia.schemas.customer.CustomerCore;
 import com.farmaciahigia.schemas.customer.CustomerLogin;
-import com.farmaciahigia.schemas.customer.CustomerRequest;
 import com.farmaciahigia.schemas.customer.CustomerResponseError;
 import com.farmaciahigia.schemas.customer.CustomerResponseSuccess;
 
@@ -29,8 +28,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 // import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper; 
-import com.fasterxml.jackson.databind.SerializationFeature; 
 
 @RestController
 @RequestMapping(path = "/customers", produces = "application/json")
@@ -80,41 +77,12 @@ public class CustomerController {
 			
 			// Customer newCustomer = new Customer( repo.save(reqCustomer));
 			Customer newCustomer = repo.save(reqCustomer);
-			System.out.println("4: " + newCustomer.toString());
-			
-			// ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-			// String json = ow.writeValueAsString(new Customer(newCustomer));
-			
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-			
-			// String json = objectMapper.writeValueAsString(req);
-			// String json2 = objectMapper.writeValueAsString(reqCustomer);
-			String json = objectMapper.writeValueAsString(newCustomer);
-			
-			CustomerRequest resCustomer = new CustomerRequest(
-			newCustomer.getId(),
-			newCustomer.getCpf(),
-			newCustomer.getPassword(),
-			newCustomer.getEmail(),
-			newCustomer.getFirstName(),
-			newCustomer.getLastName(),
-			newCustomer.getPhone(),
-			newCustomer.getBirthDate()
-			);
-			String json1 = objectMapper.writeValueAsString(resCustomer);
-			
-			
-			
-			
-			// ObjectMapper objectMapper = new ObjectMapper()
-			// String json = objectMapper.writeValueAsString(newCustomer);
-			
-			System.out.println(json + json1 );//+ json3);
+
+			System.out.println(newCustomer );//+ json3);
 			
 			res.put("message", "Usuário cadastrado com sucesso");
 			// res.put("content", json);
-			res.put("content",resCustomer);
+			res.put("content", newCustomer);
 			
 			
 			repo.delete(newCustomer);

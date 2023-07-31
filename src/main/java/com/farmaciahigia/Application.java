@@ -10,7 +10,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 	/**
-	 * TODO
+	 * @TODO
 	 * 1. CRUD for all ?
 	 * 		not possible now.
 	 * 2. Host App ?

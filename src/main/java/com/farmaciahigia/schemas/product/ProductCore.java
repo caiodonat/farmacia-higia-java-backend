@@ -10,42 +10,75 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(accessMode = Schema.AccessMode.READ_ONLY)
 public class ProductCore implements ISchema {
 
-	private String type = "medicamento";
+	private String type;
 
-	private String description = "some product";
+	private String description;
 
-	private String ean = "123123131241234";
+	private String ean;
 
-	private Double value = 100.0;
+	private Double value;
 
-	private Double saleFee = 0.0; // desconto em % (0 ~ 100)
+	private Double saleFee; // desconto em % (0 ~ 100)
 
 	protected List<String> errors = new ArrayList<>();
 
 	// methods
 
+	public ProductCore() {
+	}
+
+	@Override
+	public String toString() {
+		return "ProductCore [type=" + type + ", description=" + description + ", ean=" + ean + ", value=" + value
+				+ ", saleFee=" + saleFee + ", errors=" + errors + "]";
+	}
+
 	public String getType() {
-		return this.type;
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getDescription() {
-		return this.description;
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getEan() {
-		return this.ean;
+		return ean;
+	}
+
+	public void setEan(String ean) {
+		this.ean = ean;
 	}
 
 	public Double getValue() {
-		return this.value;
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
 	}
 
 	public Double getSaleFee() {
-		return this.saleFee;
+		return saleFee;
+	}
+
+	public void setSaleFee(Double saleFee) {
+		this.saleFee = saleFee;
 	}
 
 	public List<String> errors() {
-		return this.errors;
+		return errors;
+	}
+
+	public void setErrors(List<String> errors) {
+		this.errors = errors;
 	}
 
 }

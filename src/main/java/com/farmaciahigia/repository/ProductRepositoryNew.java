@@ -17,18 +17,32 @@ public class ProductRepositoryNew {
         this.repository = repository;
     }
     
+    public Product selectById(Integer id){
+        Product p = repository.findById(id);
+        System.out.println(p.toString());
+        return p;
+    }
+    
+    public List<Product> selectAll(){
+        return repository.findAll();
+    }
+    
     public List<Product> selectByType(String type){
-        System.out.println(type);
-        
         return repository.findAll()
-        // .removeIf(p -> p.getType().equalsIgnoreCase(type))
         .stream()
         .filter(p -> (
-            p.getType().contains(type)
+        p.getType() != null &&
+        p.getType().contains(type)
         ))
         .toList()
         ;
-        
+    }
+    
+    public Product create(Product product){
+        Product p = repository.save(product);
+        p = repository.findById(p.getId()).get();
+
+        return p;
     }
     
     

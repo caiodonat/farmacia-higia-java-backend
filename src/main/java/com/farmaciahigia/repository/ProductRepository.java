@@ -15,7 +15,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query("SELECT p FROM product p")
     List<Product> findAll();
 
-    @Query("SELECT p FROM product p WHERE p.type LIKE ?1")
+    @Query("SELECT p FROM product p WHERE p.type=?1")
     List<Product> selectByType(String type);
 
     @Query("SELECT p FROM product p WHERE p.value=?1")

@@ -3,7 +3,6 @@ package com.farmaciahigia.model;
 import java.util.List;
 
 import com.farmaciahigia.schemas.product.ProductCore;
-import com.farmaciahigia.schemas.product.ProductReq;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,15 +51,6 @@ public class Product extends ProductCore {
 		// setTypeValidator(product.getType());
 		setDescription(product.getDescription());
 		setType(product.getType());
-		setEan(product.getEan());
-		setValue(product.getValue());
-		setSaleFee(product.getSaleFee());
-		setImgUrl(product.getImgUrl());
-	};
-
-	public Product(ProductReq product) {
-		setType(product.getType());
-		setDescription(product.getDescription());
 		setEan(product.getEan());
 		setValue(product.getValue());
 		setSaleFee(product.getSaleFee());

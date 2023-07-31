@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.farmaciahigia.model.Product;
 import com.farmaciahigia.repository.ProductRepositoryNew;
 import com.farmaciahigia.schemas.product.ProductCore;
-import com.farmaciahigia.schemas.product.ProductReq;
 import com.farmaciahigia.schemas.product.ProductResponseError;
 import com.farmaciahigia.schemas.product.ProductResponseSuccess;
 

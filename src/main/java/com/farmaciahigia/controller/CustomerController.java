@@ -98,6 +98,11 @@ public class CustomerController {
 	}
 
 	@Operation(summary = "Get all Customer", tags = { "Customer" })
+	@ApiResponses({
+			@ApiResponse(responseCode = "201", content = {
+					@Content(schema = @Schema(implementation = CustomerResponseSuccess.class), mediaType = "application/json")
+			})
+	})
 	@GetMapping("/all")
 	ResponseEntity<?> getAll() {
 		try {
@@ -123,9 +128,6 @@ public class CustomerController {
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
 					@Content(schema = @Schema(implementation = CustomerResponseSuccess.class), mediaType = "application/json")
-			}),
-			@ApiResponse(responseCode = "400", content = {
-					@Content(schema = @Schema(implementation = CustomerResponseError.class), mediaType = "application/json")
 			})
 	})
 	@GetMapping("/{id}")

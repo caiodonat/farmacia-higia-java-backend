@@ -46,14 +46,16 @@ public class Product extends ProductCore {
 	
 	public Product(ProductCore product) {
 		// setTypeValidator(product.getType());
-		this.description = product.getDescription();
-		this.ean = product.getEan();
-		this.value = product.getValue();
-		this.saleFee = product.getSaleFee();
+		setDescription(product.getDescription());
+		setType(product.getType());
+		setEan(product.getEan());
+		setValue(product.getValue());
+		setSaleFee(product.getSaleFee());
 	};
 	
 	public Product(Product product) {
 		setId(product.getId());
+		setType(product.getType());
 		setDescription(product.getDescription());
 		setEan(product.getEan());
 		setValue(product.getValue());
@@ -61,11 +63,11 @@ public class Product extends ProductCore {
 	};
 	
 	public Product(String type, String description, String ean, Double value, Double saleFee) {
-		this.type = type;
-		this.description = description;
-		this.ean = ean;
-		this.value = value;
-		this.saleFee = saleFee;
+		setType(type);
+		setDescription(description);
+		setEan(ean);
+		setValue(value);
+		setSaleFee(saleFee);
 	};
 	
 	// Methods
@@ -83,15 +85,6 @@ public class Product extends ProductCore {
 		}
 
 		return json;
-
-		// return "{id:" + id +
-		// ", type:" + type +
-		// ", description:" + description +
-		// ", ean:" + ean +
-		// ", value:" + value +
-		// ", saleFee:" + saleFee +
-		// ", storages:" + storages +
-		// "}";
 	}
 
 	public Long getId() {

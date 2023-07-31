@@ -45,20 +45,18 @@ public class ProductController {
 		try {
 			Product newProduct = new Product(req);
 			
-			System.out.println("p1: " + req);
-			System.out.println("p2: " + newProduct);
 			if (!newProduct.errors().isEmpty()) {
 				System.out.println("isValid");
 				
-				res.put("message", "Dados invalidos:");
+				res.put("message", "Dados inválidos:");
 				res.put("errors", "");
+
 				return ResponseEntity
 				.status(400)
 				.body(res);
 			}
 			
 			newProduct = repository.create(newProduct);
-			System.out.println("p3: " + newProduct);
 			
 			res.put("message", "Produto criado com sucesso!");
 			res.put("content", newProduct);

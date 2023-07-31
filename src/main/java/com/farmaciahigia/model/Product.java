@@ -54,6 +54,7 @@ public class Product extends ProductCore {
 		setEan(product.getEan());
 		setValue(product.getValue());
 		setSaleFee(product.getSaleFee());
+		setImgUrl(product.getImgUrl());
 	};
 
 	public Product(Product product) {

@@ -19,6 +19,8 @@ public class ProductCore implements ISchema {
 	private Double value;
 
 	private Double saleFee; // desconto em % (0 ~ 100)
+	
+	private String imgUrl;
 
 	protected List<String> errors = new ArrayList<>();
 
@@ -71,6 +73,14 @@ public class ProductCore implements ISchema {
 
 	public void setSaleFee(Double saleFee) {
 		this.saleFee = saleFee;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	public List<String> errors() {

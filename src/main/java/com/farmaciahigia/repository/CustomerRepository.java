@@ -1,18 +1,41 @@
 package com.farmaciahigia.repository;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-import org.springframework.data.repository.CrudRepository;
-
+import com.farmaciahigia.dao.CustomerDao;
 import com.farmaciahigia.model.Customer;
 
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+@Service
+public class CustomerRepository {
 
-  List<Customer> findByLastName(String lastName);
+	private final CustomerDao repository;
 
-  List<Customer> findAll();
+	public CustomerRepository(CustomerDao repository) {
+		this.repository = repository;
+	}
 
-  Customer findById(long id);
+	public Customer selectById(Long id) {
+		Customer p = repository.findById(id).get();
+		return p;
+	}
 
-  Customer findByEmail(String email);
+	/**
+	 * @TODO
+	 * [ ] encrypt password if not
+	 */
+	public Customer create(Customer customer) {
+
+		Customer c = repository.save(customer);
+		c = repository.findById(Long.valueOf(c.getId())).get();
+
+		return c;
+	}
+
+	// List<Customer> findByLastName(String lastName);
+
+	// List<Customer> findAll();
+
+	// Customer findById(long id);
+
+	// Customer findByEmail(String email);
 }

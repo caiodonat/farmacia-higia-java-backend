@@ -8,8 +8,6 @@ public class CustomerResponseError {
 
 	private List<String> errors;
 
-
-
 	public String getMessage() {
 		return message;
 	}

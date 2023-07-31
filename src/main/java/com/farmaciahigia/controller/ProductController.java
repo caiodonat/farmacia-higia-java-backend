@@ -108,7 +108,7 @@ public class ProductController {
 			}
 			
 			res.put("message", "Produto encontrado com sucesso!");
-			res.put("content", productRes.toString());
+			res.put("content", productRes);
 			
 			return ResponseEntity
 			.status(200)

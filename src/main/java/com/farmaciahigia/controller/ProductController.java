@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,15 +33,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping(path = "/products", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class ProductController {
-	
+
 	private final ProductRepositoryNew repository;
-	
+
 	ProductController(ProductRepositoryNew repository) {
 		this.repository = repository;
 	}
-	
+
 	Map<String, Object> res = new HashMap<String, Object>();
-	
+
 	@Operation(summary = "Create a new Product", tags = { "Product" })
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
@@ -54,121 +55,126 @@ public class ProductController {
 	ResponseEntity<?> create(@RequestBody ProductCore req) {
 		try {
 			Product newProduct = new Product(req);
-			
+
 			if (!newProduct.errors().isEmpty()) {
 				System.out.println("isValid");
-				
+
 				res.put("message", "Dados inválidos:");
 				res.put("errors", "");
 
 				return ResponseEntity
-				.status(400)
-				.body(res);
+						.status(400)
+						.body(res);
 			}
-			
+
 			newProduct = repository.create(newProduct);
-			
+
 			res.put("message", "Produto criado com sucesso!");
 			res.put("content", newProduct);
-			
+
 			return ResponseEntity
-			.status(201)
-			.body(res);
-			
+					.status(201)
+					.body(res);
+
 		} catch (Exception e) {
-			
+
 			res.put("message", "Falha ao processar sua requisição:");
 			res.put("errors", e.getMessage());
-			
+
 			return ResponseEntity
-			.status(500)
-			.body(res);
+					.status(500)
+					.body(res);
 		}
 	}
-	
+
 	@Operation(summary = "Get all Products", tags = { "Product" })
 	@GetMapping("/all")
 	ResponseEntity<?> getAll() {
 		try {
 			List<Product> repo = repository.selectAll();
-			
+
 			res.put("message", "Requisição processada com sucesso");
 			res.put("content", repo);
-			
+
 			return ResponseEntity
-			.status(200)
-			.body(repo);
-			
+					.status(200)
+					.body(repo);
+
 		} catch (Exception e) {
 			return ResponseEntity
-			.status(500)
-			.body(Map.of(
-			"message", "Falha ao processar sua requisição",
-			"content", null));
+					.status(500)
+					.body(Map.of(
+							"message", "Falha ao processar sua requisição",
+							"content", null));
 		}
 	}
-	
+
 	@Operation(summary = "Get a Product", tags = { "Product" })
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = ProductResponseSuccess.class), mediaType = "application/json")
+			})
+	})
 	@GetMapping("/{id}")
 	ResponseEntity<?> getById(@PathVariable String id) {
 		try {
 			Product productRes = repository.selectById(Integer.parseInt(id));
-			
+
 			if (productRes == null) {
 				res.put("message", "Produto não encontrado");
 				res.put("content", null);
 				return ResponseEntity
-				.status(400)
-				.body(res);
+						.status(400)
+						.body(res);
 			}
-			
+
 			res.put("message", "Produto encontrado com sucesso!");
 			res.put("content", productRes);
-			
+
 			return ResponseEntity
-			.status(200)
-			.body(res);
+					.status(200)
+					.body(res);
 		} catch (Exception e) {
-			
+
 			res.put("message", "Falha ao processar sua requisição!");
 			res.put("content", id);
 			return ResponseEntity
-			.status(500)
-			.body(res);
+					.status(500)
+					.body(res);
 		}
 	}
-	
+
 	@Operation(summary = "Get a Product by type", tags = { "Product" })
 	@GetMapping("/type/{type}")
 	ResponseEntity<?> getByType(@PathVariable String type) {
 		try {
 			List<Product> productRes = repository.selectByType(type);
-			
+
 			if (productRes == null) {
 				res.put("message", "Nenhum Produto encontrado...");
 				res.put("content", null);
 				return ResponseEntity
-				.status(400)
-				.body(res);
+						.status(400)
+						.body(res);
 			}
-			
+
 			res.put("message", "Produto encontrado com sucesso!");
 			res.put("content", productRes);
-			
+
 			return ResponseEntity
-			.status(200)
-			.body(res);
+					.status(200)
+					.body(res);
 		} catch (Exception e) {
-			
+
 			res.put("message", "Falha ao processar sua requisição!");
 			res.put("errors", e.getMessage());
-			
+
 			return ResponseEntity
-			.status(500)
-			.body(res);
+					.status(500)
+					.body(res);
 		}
 	}
-	
+
 	@Operation(summary = "Update a Product", tags = { "Product" })
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
@@ -179,34 +185,34 @@ public class ProductController {
 			})
 	})
 	@PutMapping("/{id}")
-	ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody ProductReq req) {
+	ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody Product req) {
 		try {
 			Product productRes = new Product(req);
-			
+
 			if (!productRes.errors().isEmpty()) {
 				res.put("message", "Produto invalido:");
 				res.put("errors", productRes.errors());
 
 				return ResponseEntity
-				.status(400)
-				.body(res);
+						.status(400)
+						.body(res);
 			}
-			
+
 			Product newProduct = repository.updateProduct(id, productRes);
 
 			res.put("message", "Produto atualizado com sucesso!");
 			res.put("content", newProduct);
-			
+
 			return ResponseEntity
-			.status(200)
-			.body(res);
+					.status(200)
+					.body(res);
 		} catch (Exception e) {
 			System.out.println(e);
 			res.put("message", "Falha ao processar sua requisição!");
 			res.put("content", id);
 			return ResponseEntity
-			.status(500)
-			.body(res);
+					.status(500)
+					.body(res);
 		}
 	}
 
@@ -220,32 +226,69 @@ public class ProductController {
 	ResponseEntity<?> updateProductImg(@PathVariable Integer id, @RequestParam String new_url) {
 		try {
 			Product productRes = repository.selectById(id);
-			
+
 			if (productRes == null) {
 				res.put("message", "Produto não encontrado");
 				res.put("errors", null);
 
 				return ResponseEntity
-				.status(400)
-				.body(res);
+						.status(400)
+						.body(res);
 			}
-			
+
 			Product newProduct = repository.updateProductImgById(id, new_url);
 
 			res.put("message", "Produto encontrado com sucesso!");
 			res.put("content", newProduct);
-			
+
 			return ResponseEntity
-			.status(200)
-			.body(res);
+					.status(200)
+					.body(res);
 		} catch (Exception e) {
-			
+
 			res.put("message", "Falha ao processar sua requisição!");
 			res.put("content", id);
 			return ResponseEntity
-			.status(500)
-			.body(res);
+					.status(500)
+					.body(res);
 		}
 	}
-	
+
+	@Operation(summary = "Delete a Product", tags = { "Product" })
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = ProductResponseSuccess.class), mediaType = "application/json")
+			})
+	})
+	@DeleteMapping("/{id}")
+	ResponseEntity<?> deleteProductById(@PathVariable String id) {
+		try {
+			Product productRes = repository.selectById(Integer.parseInt(id));
+
+			if (productRes == null) {
+				res.put("message", "Produto não encontrado");
+				res.put("errors", id);
+				return ResponseEntity
+						.status(400)
+						.body(res);
+			}
+
+			repository.deleteById(productRes.getId());
+
+			res.put("message", "Produto deletado com sucesso!");
+			res.put("content", productRes);
+
+			return ResponseEntity
+					.status(200)
+					.body(res);
+		} catch (Exception e) {
+
+			res.put("message", "Falha ao processar sua requisição!");
+			res.put("content", id);
+			return ResponseEntity
+					.status(500)
+					.body(res);
+		}
+	}
+
 }

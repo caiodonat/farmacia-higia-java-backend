@@ -67,4 +67,12 @@ public class ProductRepositoryNew {
 		return p;
 	}
 
+	public Product deleteById(Long id) {
+		Product p = repository.findById(id + 0);
+		System.out.println(p.toString());
+
+		repository.delete(p);
+		return p;
+	}
+
 }

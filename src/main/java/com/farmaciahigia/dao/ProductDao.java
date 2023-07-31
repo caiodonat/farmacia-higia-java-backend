@@ -12,4 +12,6 @@ public interface ProductDao extends CrudRepository<Product, Long> {
   List<Product> findAll();
 
   Product findById(long id);
+
+  void deleteById(Long id);
 }

@@ -1,6 +1,7 @@
 package com.farmaciahigia.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,23 @@ public class ProductRepositoryNew {
 	public Product updateProductImgById(Integer id, String newUrl) {
 		Product p = repository.findById(id);
 		p.setImgUrl(newUrl);
+		p = repository.save(p);
+
+		return p;
+	}
+
+	public Product updateProduct(Long id, Product newP) {
+		Product oldP = repository.findById(id).get();
+
+		Product p = oldP;
+
+		p.setType(newP.getType());
+		p.setDescription(newP.getDescription());
+		p.setEan(newP.getEan());
+		p.setValue(newP.getValue());
+		p.setSaleFee(newP.getSaleFee());
+		p.setImgUrl(newP.getImgUrl());
+
 		p = repository.save(p);
 
 		return p;

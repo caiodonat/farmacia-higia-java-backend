@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.farmaciahigia.schemas.ISchema;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -31,8 +33,17 @@ public class ProductCore implements ISchema {
 
 	@Override
 	public String toString() {
-		return "ProductCore [type=" + type + ", description=" + description + ", ean=" + ean + ", value=" + value
-				+ ", saleFee=" + saleFee + ", errors=" + errors + "]";
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		String json;
+		try {
+			json = objectMapper.writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			json = "";
+		}
+
+		return json;
 	}
 
 	public String getType() {
@@ -85,10 +96,6 @@ public class ProductCore implements ISchema {
 
 	public List<String> errors() {
 		return errors;
-	}
-
-	public void setErrors(List<String> errors) {
-		this.errors = errors;
 	}
 
 }

@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.farmaciahigia.model.Product;
 import com.farmaciahigia.repository.ProductRepositoryNew;
-import com.farmaciahigia.schemas.customer.CustomerResponseSuccess;
 import com.farmaciahigia.schemas.product.ProductCore;
+import com.farmaciahigia.schemas.product.ProductReq;
+import com.farmaciahigia.schemas.product.ProductResponseError;
+import com.farmaciahigia.schemas.product.ProductResponseSuccess;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,6 +42,14 @@ public class ProductController {
 	Map<String, Object> res = new HashMap<String, Object>();
 	
 	@Operation(summary = "Create a new Product", tags = { "Product" })
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = ProductResponseSuccess.class), mediaType = "application/json")
+			}),
+			@ApiResponse(responseCode = "400", content = {
+					@Content(schema = @Schema(implementation = ProductResponseError.class), mediaType = "application/json")
+			})
+	})
 	@PostMapping("/")
 	ResponseEntity<?> create(@RequestBody ProductCore req) {
 		try {
@@ -159,7 +169,48 @@ public class ProductController {
 		}
 	}
 	
-	@Operation(summary = "Get a Product", tags = { "Product" })
+	@Operation(summary = "Update a Product", tags = { "Product" })
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = ProductResponseSuccess.class), mediaType = "application/json")
+			}),
+			@ApiResponse(responseCode = "400", content = {
+					@Content(schema = @Schema(implementation = ProductResponseError.class), mediaType = "application/json")
+			})
+	})
+	@PutMapping("/{id}")
+	ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody ProductReq req) {
+		try {
+			Product productRes = new Product(req);
+			
+			if (!productRes.errors().isEmpty()) {
+				res.put("message", "Produto invalido:");
+				res.put("errors", productRes.errors());
+
+				return ResponseEntity
+				.status(400)
+				.body(res);
+			}
+			
+			Product newProduct = repository.updateProduct(id, productRes);
+
+			res.put("message", "Produto atualizado com sucesso!");
+			res.put("content", newProduct);
+			
+			return ResponseEntity
+			.status(200)
+			.body(res);
+		} catch (Exception e) {
+			System.out.println(e);
+			res.put("message", "Falha ao processar sua requisição!");
+			res.put("content", id);
+			return ResponseEntity
+			.status(500)
+			.body(res);
+		}
+	}
+
+	@Operation(summary = "Update a Product imagem", tags = { "Product" })
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
 					@Content(schema = @Schema(implementation = Product.class), mediaType = "application/json")
